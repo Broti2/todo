@@ -5,7 +5,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import axios from 'axios';
 
 export default function Home() {
-  debugger;
   const [list, setList] = useState([]);
   const [todo, setTodo] = useState('');
   const [hidden, setHidden] = useState({ id: '', hidden: '' });
@@ -32,16 +31,17 @@ export default function Home() {
     }
   };
 
-  const Add = async (e: any) => {
-    e.preventDefault();
+  const add = async () => {
     try {
-      await axios.post('http://localhost:5000/api/todo', { todo: todo });
-      console.log('Successfully added todo');
+      await axios
+        .post('http://localhost:5000/api/todo', { todo: todo })
+        .then(() => console.log('succefully added todo'));
+
       setTodo(''); // Clear input value
       // Fetch the updated list after addition
-      fetch();
+      await fetch();
     } catch (error) {
-      console.error('Error adding todo:', error);
+      console.log('error adding todo', error);
     }
   };
 
@@ -70,16 +70,21 @@ export default function Home() {
         </h1>
         <div className="py-5">
           <div className="h-16   flex justify-center">
-            <form className="h-full " onSubmit={Add}>
+            <form
+              className="h-full mx-1 flex max-sm:w-full "
+              onSubmit={() => {
+                add();
+              }}
+            >
               <input
                 onChange={(e) => setTodo(e.target.value)}
                 value={todo}
-                className="h-full w-64 text-black text-2xl px-2"
+                className="h-full w-52  md:w-64 text-black text-2xl px-2"
                 placeholder="Add todo"
                 type="text"
               />{' '}
               <button
-                className="h-full bg-slate-700 w-24 text-2xl font-bold"
+                className="h-full md:mx-1 bg-slate-700 w-full md:w-24 text-2xl font-bold"
                 type="submit"
               >
                 Add
@@ -94,7 +99,7 @@ export default function Home() {
             ) : (
               list.map((e: any) => (
                 <div
-                  className="mx-auto flex justify-between my-3 py-3 rounded-lg text-2xl px-5 w-[25%] bg-white text-black"
+                  className="transition-all delay-100 duration-[2s] mx-auto flex justify-between my-3 py-3 rounded-lg text-2xl px-5 md:w-[25%] bg-white text-black"
                   key={e._id}
                 >
                   <div
@@ -179,7 +184,7 @@ export default function Home() {
                       />{' '}
                       <button
                         type="submit"
-                        className="text-lg font-semibold px-3  -my-1 rounded-lg bg-slate-600 text-white"
+                        className="text-lg font-semibold md:px-3  -my-1 rounded-lg bg-slate-600 text-white"
                       >
                         Update
                       </button>

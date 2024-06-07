@@ -76,7 +76,7 @@ app.patch('/api/patch/:id', async (req, res) => {
 app.put('/api/update/:id', async (req, res) => {
   try {
     const id  = req.params.id;
-    const  {todo}  = req.body;
+    const  todo  = req.body.todo;
     console.log(id);
     console.log(todo);
     const dbo = client.db('sampledata');
